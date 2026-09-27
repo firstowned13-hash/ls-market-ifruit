@@ -1,63 +1,45 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
   <title>LS Market</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div id="app" class="app">
-    <header class="topbar">
-      <div>
-        <div class="eyebrow">iFruit Marketplace</div>
-        <h1>LS Market</h1>
+  <div id="app" class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="brand"><div class="brand-mark">LS</div><div><div class="eyebrow">iFruit Marketplace</div><h1>LS Market</h1></div></div>
+        <button id="sellBtn" class="icon-action" aria-label="Create listing"><span class="plus">＋</span></button>
       </div>
-      <button id="sellBtn" class="primary small">+ Anunciar</button>
+      <div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" data-i18n-placeholder="search_placeholder" autocomplete="off" /></div>
+      <div id="categoryChips" class="chips"></div>
     </header>
-
-    <section class="searchbar">
-      <input id="searchInput" placeholder="Buscar anúncios" />
-      <select id="categoryFilter">
-        <option>Todos</option>
-        <option>Veículos</option><option>Imóveis</option><option>Eletrônicos</option>
-        <option>Roupas</option><option>Serviços</option><option>Outros</option>
-      </select>
-    </section>
-
-    <div id="notice" class="notice hidden"></div>
+    <section class="section-head"><div><h2 id="feedTitle" data-i18n="discover">Discover</h2><p id="feedSubtitle" data-i18n="discover_subtitle">Fresh listings from Los Santos.</p></div><span id="localePill" class="locale-pill">EN</span></section>
+    <div id="notice" class="toast hidden" role="status"></div>
     <main id="feed" class="feed"></main>
-
-    <nav class="bottomnav">
-      <button class="active" data-view="feed">Início</button>
-      <button data-view="mine">Meus anúncios</button>
-    </nav>
+    <nav class="bottomnav"><button class="active" data-view="feed"><span class="nav-icon">⌂</span><span data-i18n="home">Home</span></button><button data-view="mine"><span class="nav-icon">▣</span><span data-i18n="my_listings">My listings</span></button></nav>
   </div>
-
   <dialog id="listingDialog" class="sheet">
     <form id="listingForm" method="dialog">
-      <div class="sheet-head"><h2>Novo anúncio</h2><button type="button" class="ghost" data-close>Fechar</button></div>
-      <label>Título<input name="title" maxlength="90" required placeholder="Ex.: Sultan RS bem conservado" /></label>
-      <label>Descrição<textarea name="description" maxlength="1200" required rows="5" placeholder="Detalhes do item, condições, negociação..."></textarea></label>
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><div class="eyebrow" data-i18n="sell_on_market">Sell on LS Market</div><h2 data-i18n="new_listing">New listing</h2></div><button type="button" class="ghost round" data-close>×</button></div>
+      <label><span data-i18n="title">Title</span><input name="title" maxlength="90" required data-i18n-placeholder="title_placeholder" /></label>
+      <label><span data-i18n="description">Description</span><textarea name="description" maxlength="1200" required rows="5" data-i18n-placeholder="description_placeholder"></textarea></label>
       <div class="grid2">
-        <label>Preço<input name="price" type="number" min="0" step="1" required /></label>
-        <label>Categoria<select name="category" required><option>Veículos</option><option>Imóveis</option><option>Eletrônicos</option><option>Roupas</option><option>Serviços</option><option>Outros</option></select></label>
+        <label><span data-i18n="price">Price</span><div class="money-input"><span>$</span><input name="price" type="number" min="0" step="1" required /></div></label>
+        <label><span data-i18n="category">Category</span><select name="category" id="listingCategory" required></select></label>
       </div>
-      <label>Telefone para contato<input name="phone" maxlength="24" placeholder="Opcional" /></label>
-      <div class="photos-row">
-        <button id="pickPhotosBtn" type="button" class="secondary">Adicionar fotos</button>
-        <span id="photoCount">0/10</span>
-      </div>
-      <div id="photoPreview" class="photo-preview"></div>
-      <div class="paybox">
-        <span>Taxa para publicar</span>
-        <strong id="listingFeeLabel">$...</strong>
-      </div>
-      <button type="submit" class="primary full">Pagar e publicar</button>
-      <p class="hint">O pagamento é confirmado pela folha nativa do iFruit Pay. O anúncio só entra no ar após a transação constar como succeeded.</p>
+      <label><span data-i18n="contact_phone">Contact phone</span><input name="phone" maxlength="24" data-i18n-placeholder="optional" /></label>
+      <div class="photo-picker"><div><strong data-i18n="photos">Photos</strong><p data-i18n="photos_hint">Add up to 10 photos from your iFruit gallery.</p></div><button id="pickPhotosBtn" type="button" class="secondary compact" data-i18n="add_photos">Add photos</button></div>
+      <div class="photos-meta"><span id="photoCount">0/10</span></div><div id="photoPreview" class="photo-preview"></div>
+      <div class="checkout-card"><div><span data-i18n="publication_fee">Publication fee</span><small data-i18n="publication_fee_hint">Charged once when this listing goes live.</small></div><strong id="listingFeeLabel">$...</strong></div>
+      <button type="submit" class="primary full"><span data-i18n="pay_publish">Pay & publish</span></button>
+      <p class="hint center" data-i18n="payment_hint">Your listing only goes live after iFruit Pay confirms the transaction.</p>
     </form>
   </dialog>
-
   <dialog id="detailDialog" class="sheet"><div id="detail"></div></dialog>
   <script src="/app.js" type="module"></script>
 </body>
